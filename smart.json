@@ -8,6 +8,7 @@
   "packages": {
     "collectionFS": "0.4.8",
     "cfs-s3": "0.0.29",
+    "cfs-tempstore": "0.0.27",
     "cfs-filesystem": "0.0.26",
     "cfs-graphicsmagick": "0.0.14"
   }

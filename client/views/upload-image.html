@@ -1,0 +1,7 @@
+<template name="uploadImage">
+  {{#if image}}
+    {{> displayImage image}}
+  {{else}}
+    <input name="image" type="file" value="{{image}}" class="image-file-picker">
+  {{/if}}
+</template>

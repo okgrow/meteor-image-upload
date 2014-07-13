@@ -1,0 +1,13 @@
+<template name="displayImage">
+  {{#if thumbnail}}
+    <img class="uploaded-image" src="{{thumbnail ../store}}"/>
+  {{else}}
+    {{#unless isUploaded}}
+      Uploading ({{uploadProgress}})...
+    {{else}}
+      Processing...
+    {{/unless}}
+  {{/if}}
+  <input type="button" value="Delete" class="delete-image"/>
+  <input type="hidden" name='imageId' value="{{_id}}" class="image-id"/>
+</template>

@@ -20,7 +20,6 @@ Template.uploadImage.events({
     var that = this;
     var file = event.target.files[0];
     if (file) {
-      console.log("@@@", "this in upload event", this);
       var newFile = new FS.File(file);
       newFile.addedBy = Meteor.userId();
       if (this.associatedObject) {
@@ -28,6 +27,9 @@ Template.uploadImage.events({
       }
 
       this.imageCollection.insert(newFile, function (err, fileObj) {
+        if (err) {
+          console.log("Error: ", err);
+        }
         // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
         if (!that.associatedObjectId) {
           // Save the ID of the newly inserted doc in the session so we can use it

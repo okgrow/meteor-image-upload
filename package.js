@@ -1,6 +1,6 @@
 Package.describe({
   name:    "okgrow:easy-cfs-images",
-  version: "0.3.0",
+  version: "0.4.0",
   summary: "Easily create CollectionFS collections for images",
   git:     "https://github.com/okgrow/meteor-easy-cfs-images/"
 });
@@ -10,7 +10,7 @@ Package.onUse(function (api) {
     'cfs:standard-packages',
     'cfs:filesystem',
     'cfs:graphicsmagick',
-    'cfs:s3',
+    'cfs:s3@0.1.1',
     'cfs:tempstore',
     'cfs:power-queue',
     'session',

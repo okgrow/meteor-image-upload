@@ -1,6 +1,6 @@
 Package.describe({
   name:    "okgrow:easy-cfs-images",
-  version: "0.4.0",
+  version: "0.4.1",
   summary: "Easily create CollectionFS collections for images",
   git:     "https://github.com/okgrow/meteor-easy-cfs-images/"
 });

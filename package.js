@@ -18,6 +18,7 @@ Package.onUse(function (api) {
     'templating'
   ]);
   api.addFiles('lib/easy_cfs_images.js', ['server', 'client']);
+  api.addFiles('server/methods.js', 'server');
   api.addFiles(
     [
       'client/views/display-image.html',
@@ -27,4 +28,5 @@ Package.onUse(function (api) {
     ],
     'client');
   api.export('ImageCollectionFactory');
+  api.export('EasyImages');
 });

@@ -1,8 +1,8 @@
 Package.describe({
-  name:    "okgrow:easy-cfs-images",
+  name:    "okgrow:image-upload",
   version: "0.4.1",
-  summary: "Easily create CollectionFS collections for images",
-  git:     "https://github.com/okgrow/meteor-easy-cfs-images/"
+  summary: "Let users upload images in your app",
+  git:     "https://github.com/okgrow/meteor-image-upload/"
 });
 
 Package.onUse(function (api) {
@@ -17,7 +17,7 @@ Package.onUse(function (api) {
     'spacebars',
     'templating'
   ]);
-  api.addFiles('lib/easy_cfs_images.js', ['server', 'client']);
+  api.addFiles('lib/image_upload.js', ['server', 'client']);
   api.addFiles(
     [
       'client/views/display-image.html',

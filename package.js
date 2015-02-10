@@ -7,15 +7,15 @@ Package.describe({
 
 Package.onUse(function (api) {
   api.use([
-    'cfs:standard-packages',
-    'cfs:filesystem',
-    'cfs:graphicsmagick',
+    'cfs:standard-packages@0.5.0',
+    'cfs:filesystem@0.1.1',
+    'cfs:graphicsmagick@0.0.17',
     'cfs:s3@0.1.1',
-    'cfs:tempstore',
-    'cfs:power-queue',
-    'session',
-    'spacebars',
-    'templating'
+    'cfs:tempstore@0.1.3',
+    'cfs:power-queue@0.9.11',
+    'session@1.0.5',
+    'spacebars@1.0.0',
+    'templating@1.0.0'
   ]);
   api.addFiles('lib/image_upload.js', ['server', 'client']);
   api.addFiles(

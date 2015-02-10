@@ -26,5 +26,5 @@ Package.onUse(function (api) {
       'client/views/upload-image.js'
     ],
     'client');
-  api.export('ImageCollectionFactory');
+  api.export('ImageUpload');
 });

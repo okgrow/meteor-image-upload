@@ -1,13 +1,12 @@
-Easy CFS Images
+Image Upload
 ===============
 
 
 Make sure you have GraphicsMagic installed.
 On OS X: `brew install graphicsmagick`
 
-TODO docs here.
+This README is still a big TODO. In the meantime, check out the comments in the code here:
 
-server/config.js:
-```javascript
-imageCollectionFactory = new ImageCollectionFactory(accessKeyId, secretAccessKey, bucketName);
-```
+https://github.com/okgrow/meteor-image-upload/blob/master/lib/image_upload.js#L3
+
+And examine the demo app available here: https://github.com/okgrow/meteor-image-upload-demo

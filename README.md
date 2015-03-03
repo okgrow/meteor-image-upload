@@ -53,6 +53,44 @@ You must pass in an associated collection (ex. `Meteor.users` above). Entries
 in the created collection will point to entries in the associated collection,
 and this is how we set up subscriptions automatically.
 
+### Allow/deny rules ###
+
+You will want to configure `allow` or `deny` rules for the image collection.
+Since the image collection is based on `CollectionFS`, we use their `allow`
+and `deny` system. You can view their documentation here:
+
+https://github.com/CollectionFS/Meteor-CollectionFS#security
+
+```javascript
+UserImages.allow({
+  insert: function(userId, doc) {
+    /*
+     * Each user can insert user images
+     */
+    return !!userId;
+  },
+  update: function(userId, doc) {
+    /*
+     * User can update their own image only
+     */
+    return doc && doc.addedBy === userId;
+  },
+  remove: function(userId, doc) {
+    /*
+     * User can remove their own image only
+     */
+    return doc && doc.addedBy === userId;
+  },
+  download: function(userId, fsFile) {
+    /*
+     * Anyone can see a user's avatar
+     * This is a special rule used by CollectionFS
+     */
+    return true;
+  }
+});
+```
+
 ### Letting a User Upload an Image ###
 
 In a template:

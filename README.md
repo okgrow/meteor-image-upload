@@ -1,6 +1,13 @@
 Image Upload for Meteor
 =======================
 
+DISCLAIMER
+==========
+
+*This is not production ready yet*. Image Upload is under active development
+and should be production ready over the next few weeks. If you'd like to
+help out, drop us a message at hello@okgrow.com.
+
 Installation
 ============
 

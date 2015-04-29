@@ -1,6 +1,6 @@
 Package.describe({
   name:    "okgrow:image-upload",
-  version: "0.5.1",
+  version: "0.6.0",
   summary: "Let users upload images in your app",
   git:     "https://github.com/okgrow/meteor-image-upload/"
 });

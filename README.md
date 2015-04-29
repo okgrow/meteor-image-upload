@@ -40,8 +40,8 @@ ImageUpload.configure({
   accessKeyId: YOUR_ACCESS_KEY_ID,
   secretAccessKey: YOUR_SECRET_ACCESS_KEY,
   bucketName: YOUR_BUCKET_NAME,
-  publicRead: true,
-  bucketUrl: "https://your_bucket_name.s3.amazonaws.com/"
+  bucketUrl: YOUR_BUCKET_URL, //"https://your_bucket_name.s3.amazonaws.com/"
+  publicRead: true
 });
 ```
 
@@ -59,9 +59,12 @@ below.
 
 API: `ImageUpload.createCollection( name, reference, { [options] } )`
 
-options: 
-  - defaultPermissions: boolean
-  - sizes: object
+Options: 
+
+| Name | Optional | Description |
+| --- | :---: | --- |
+| **defaultPermissions** | optional | Enables default Allow rules on your image collection, see [Security Rules](#allowdeny-security-rules) to see the rules |
+| **sizes** | optional | Let ImageMagick create multiple different sizes of each image automatically. Specify a size name as the key followed by an array for X,Y px lengths |
 
 Example
 ```javascript
@@ -220,10 +223,10 @@ something like this:
 ```json
 {
   "aws": {
-    "accessKeyId": "AKIAJYZZUSQKZDQ7P7HQ",
-    "secretAccessKey": "lvO2kvs6HtI09VdS9apstQtlaVBu7e8KdTqCml9l",
-    "bucketName": "benstr-okg-image-upload-demo",
-    "bucketUrl": "https://s3.amazonaws.com/benstr-okg-image-upload-demo"
+    "accessKeyId": "ABCDEFGHIJKLMNO",
+    "secretAccessKey": "lvO2kvs6HtI09Vd**fake**S9apstQtlaVBu7e",
+    "bucketName": "your-bucket",
+    "bucketUrl": "https://s3.amazonaws.com/your-bucket"
   }
 }
 ```

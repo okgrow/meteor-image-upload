@@ -1,36 +1,40 @@
-Image Upload for Meteor
-=======================
+# Image Upload for Meteor
 
-DISCLAIMER
-==========
+DISCLAIMER - ***This is not production ready yet***, expect API changes. Image Upload is under active development. If you'd like to help out, drop us a message at hello@okgrow.com or send a PR.
 
-*This is not production ready yet*. Image Upload is under active development
-and should be production ready over the next few weeks. If you'd like to
-help out, drop us a message at hello@okgrow.com.
+### Demo
 
-Installation
-============
+[Demo app on Heroku](https://ok-image-upload-demo.herokuapp.com/) ([source](https://github.com/okgrow/meteor-image-upload-demo))
 
-GraphicsMagick is required. Currently Meteor.com's deployment enviroment doesn't
-support this. We use Heroku.
+## One-time Setup
 
-To install on OS X: `brew install graphicsmagick`
+### Prerequisites
 
-Usage
-=====
+1. [AWS S3](http://aws.amazon.com/s3/) account for cloud file storage.
+
+2. [GraphicsMagick](http://www.graphicsmagick.org/) or [ImageMagick](http://www.imagemagick.org/) on your local machine *and* deployment server for image manipulation.
+
+	-	**OS X:** `brew install imagemagick` or `brew install graphicsmagick`
+
+	-	**\*.Meteor.com:** supports ImageMagick no setup needed
+
+	-	**Modulus.io:** supports ImageMagick no setup needed
+
+	-	**Heroku, DigitalOcean, AWS EC2:** requires manual ImageMagick/GraphicsMagick installation.
 
 There are a lot of steps to set this up. We're working on cutting this down
 considerably. Any help is welcome.
 
-Configure Image Upload
-----------------------
 
-Image Upload needs your AWS credentials and S3 bucket in order to upload files
-to your S3 bucket. You can provide this information in two ways:
-### Initializing Image Upload ###
+### Install & Configure
 
-In **common** code (**server** and **client**):
+Install from your terminal `meteor add okgrow:image-upload`.
 
+Configure in common code (*server* and *client* ).
+
+API: ` ImageUpload.configure( options ) `
+
+Example
 ```javascript
 ImageUpload.configure({
   accessKeyId: YOUR_ACCESS_KEY_ID,
@@ -44,91 +48,99 @@ ImageUpload.configure({
 You can omit `publicRead` and `bucketUrl` if you don't want to serve images
 directly from S3.
 
-### Creating a collection of images ###
+Check out how to securely store your S3 credentials in this [section](#correctly-specify-keys) below.
 
-You can use `ImageUpload.createCollection` to create a collection to hold your
-images. For example:
+### Creating Image Collections
 
+The images you upload will be stored in separate *Image Upload* collections. You will probably have more than one Image Upload collection. The Image Upload collections are created differently from Meteor collections, we show you how to make these special collections below. 
+
+Each Image Upload collection will reference and index it's documents to one of your app's data collections as specified, only one app data collection can be referenced per each Image Upload collection. We show you how to query by reference ids in [templating](#display-image)
+below.
+
+API: `ImageUpload.createCollection( name, reference, { [options] } )`
+
+options: 
+  - defaultPermissions: boolean
+  - sizes: object
+
+Example
 ```javascript
 UserImages = ImageUpload.createCollection("userImages", Meteor.users, {
-  normal: [800,800],
-  thumbnail: [200, 200]
+  defaultPermissions: true,
+  sizes: {
+    normal: [800,800],
+    thumbnail: [200, 200],
+    avatar: [50, 50]
+  }
 });
 ```
 
-You must pass in an associated collection (ex. `Meteor.users` above). Entries
-in the created collection will point to entries in the associated collection,
-and this is how we set up subscriptions automatically.
 
-### Allow/deny rules ###
+### Allow/Deny Security Rules
 
-You will want to configure `allow` or `deny` rules for the image collection.
-Since the image collection is based on `CollectionFS`, we use their `allow`
+Please add your own **allow/deny** rules and/or enable ImageUpload's `defaultPermissions` when creating the ImageUpload collection.
+
+defaultPermissions if enabled:
+```javascript
+ImageCollection.allow({
+  insert: function (userId, doc) {
+    typicalAllow();
+  },
+  update: function (userId, doc) {
+    typicalAllow();
+  },
+  remove: function (userId, doc) {
+    typicalAllow();
+  },
+  download: function (userId, fileObj) {
+    if (publicRead) {
+      return true;
+    } else {
+      return fileObj.addedBy === userId;
+    }
+  }
+});
+```
+
+*Note:* Since the image collection is based on `CollectionFS`, we use their `allow`
 and `deny` system. You can view their documentation here:
 
 https://github.com/CollectionFS/Meteor-CollectionFS#security
 
-```javascript
-UserImages.allow({
-  insert: function(userId, doc) {
-    /*
-     * Each user can insert user images
-     */
-    return !!userId;
-  },
-  update: function(userId, doc) {
-    /*
-     * User can update their own image only
-     */
-    return doc && doc.addedBy === userId;
-  },
-  remove: function(userId, doc) {
-    /*
-     * User can remove their own image only
-     */
-    return doc && doc.addedBy === userId;
-  },
-  download: function(userId, fsFile) {
-    /*
-     * Anyone can see a user's avatar
-     * This is a special rule used by CollectionFS
-     */
-    return true;
-  }
-});
-```
 
-### Letting a User Upload an Image ###
+## Client-side Templating
 
-In a template:
+### Upload Image Template
 
+You want a nice upload button with everything wired up for you? We got ya covered.
+
+API: `{{> uploadImage imageCollection=collectionName [option=option] }}`
+
+Examples:
 ```html
-<template name="uploadButton">
-  {{> uploadImage imageCollection=userImage store="userImages-thumbnail" associatedObject=currentUser}}
-</template>
+{{> uploadImage imageCollection=userImages size="thumbnail" doc=currentUser classImage="tiny-img round"}}
+
+{{> uploadImage imageCollection=postImages name="post-image" size="banner" }}
 ```
 
-Note: the `store` value in the above helper refers to the name of the
-collection (given above as 'userImages'), followed by which image size to use.
-This combined "collection-size" combo is used to display the image beside the
-upload button after a user has uploaded it. You'll likely want to use something
-small, like 'thumbnail'.
+Attributes:
 
-Which uses the following template helper to provide the collection:
-```javascript
-Template.uploadButton.helpers({
-  userImage: function() {
-    return UserImages;
-  }
-});
-```
+| Name | Optional | Description |
+| --- | :---: | --- |
+| **imageCollection** | required | Specify the Image Upload collection images go to. |
+| **doc** | optional | When adding a new image to an existing document you can pass the existing document's data and we will make the reference for you. We pull the reference `_id` from the supplied object. |
+| **size** | optional | Specify the image size you want displayed when upload completes. By default this partial template displays the original uploaded image once complete. *hint: You made these sizes when creating your Image Upload collection.* |
+| **name** | optional | Specify a custom input element name. This overwrites the default input name attribute, `image` |
+| **classInput** | optional | Specify custom class(es) for the input element. Included class is `image-file-picker` |
+| **classImage** | optional | Specify custom class(es) for the image when it displays after upload completes. Included class is`uploaded-image` |
 
-### Displaying a stored image ###
+
+### Display Image
 
 To display a stored image, you can
 
 ```html
-<template name="userAvatar">
+<template name="yourTempalte">
   <img src="{{image}}"/>
 </template>
 ```
@@ -136,9 +148,10 @@ To display a stored image, you can
 Which uses a helper which loads a document from the image collection:
 
 ```javascript
-Template.userAvatar.helpers({
+Template.yourTemplate.helpers({
   image: function() {
-    var image = UserImages.findOne({associatedObjectId: currentUser});
+  	var doc = Template.parentData(1);
+    var image = yourImageCollection.findOne({associatedObjectId: doc._id});
     if (image) {
       return image.url({store: "userImages-thumbnail"});
     }
@@ -147,19 +160,8 @@ Template.userAvatar.helpers({
 ```
 
 
-Demo App
-========
 
-We have a demo app that you can use an example of how you can use this package
-in your own app. It shows how to let users have avatars, as well as attach
-images to a simple chat message.
-
-[Image Upload Demo App](https://ok-image-upload-demo.herokuapp.com/)
-
-The source code is available here: [Image Upload Demo sourcecode](https://github.com/okgrow/meteor-image-upload-demo)
-
-Roadmap / TODO
-==============
+## Roadmap / TODO
 
 In order of fuzzy priority:
 
@@ -168,9 +170,9 @@ In order of fuzzy priority:
 - Default upload progress bar
 - In-browser image cropping/resizing with darkroom.js
 - Upload files from a URL
+- Reference multiple images to a document
 
-Direct Uploads to S3?
----------------------
+### Direct Uploads to S3?
 
 At this point we don't have plans to support uploading files directly from
 the browser's client to AWS's S3. We may add this in the future, but there we
@@ -179,10 +181,9 @@ works). Pull requests welcome.
 
 =========
 
-Not Hard Coding Your Info
--------------------------
+## Correctly Specify Keys
 
-### Using environment variables (recommended) ###
+### Using Environment Variables (recommended)
 
 Use `dotenv` package:
 
@@ -204,12 +205,13 @@ var secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
 var bucketName = process.env.S3_BUCKET_NAME;
 ```
 
-### Using Meteor `settings.json` ###
+### Using Meteor `settings.json`
 
 ```javascript
-var accessKeyId = Meteor.settings.AWS_ACCESS_KEY_ID
-var secretAccessKey = Meteor.settings.AWS_SECRET_ACCESS_KEY
-var bucketName = Meteor.settings.S3_BUCKET_NAME;
+var accessKeyId = Meteor.settings.aws.accessKeyId;
+var secretAccessKey = Meteor.settings.aws.secretAccessKey;
+var bucketName = Meteor.settings.aws.bucketName;
+var bucketUrl = Meteor.settings.aws.bucketUrl;
 ```
 
 Create a file named `settings.json` in your project directory. It should look
@@ -217,10 +219,18 @@ something like this:
 
 ```json
 {
-  "AWS_ACCESS_KEY_ID": "your_aws_access_key_id",
-  "AWS_SECRET_ACCESS_KEY": "your_aws_secret_access_key",
-  "S3_BUCKET_NAME": "your_s3_bucket_name"
+  "aws": {
+    "accessKeyId": "AKIAJYZZUSQKZDQ7P7HQ",
+    "secretAccessKey": "lvO2kvs6HtI09VdS9apstQtlaVBu7e8KdTqCml9l",
+    "bucketName": "benstr-okg-image-upload-demo",
+    "bucketUrl": "https://s3.amazonaws.com/benstr-okg-image-upload-demo"
+  }
 }
 ```
 
 If you use `settings.json`, you will need to start your app using `meteor --settings settings.json`
+
+
+Enjoy!
+
+![OK Grow Logo](http://www.okgrow.com/images/mark-text-dark.png)

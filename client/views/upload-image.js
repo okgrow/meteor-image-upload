@@ -1,42 +1,47 @@
 Template.uploadImage.helpers({
   image: function() {
+    var self = this;
+    var coll = ImageUpload.getImageCollection(self.imageCollection);
+    var store = self.imageCollection+"-"+self.size;
     var image;
 
-    if (this.associatedObject) {
+    if (self.doc) {
       // Look for image for associated object
-      image = this.imageCollection.findOne({associatedObjectId: this.associatedObject._id});
+      image = coll.findOne({associatedObjectId: self.doc._id});
     } else {
       // No associated object yet, check id of last image of this type in session
-      imageId = Session.get("lastImageId-" + this.store);
-      image = this.imageCollection.findOne({_id: Session.get("lastImageId-" + this.store)});
+      imageId = Session.get("lastImageId-" + store);
+      image = coll.findOne({_id: Session.get("lastImageId-" + store)});
     }
-
     return image;
+  },
+  inputName: function(){
+    return this.name || "image";
   }
 });
 
 Template.uploadImage.events({
-  'change .image-file-picker': function(event, template) {
-    var that = this;
+  "change [data-action=image-file-picker]": function(event, template) {
+    var self = this;
     var file = event.target.files[0];
+    var coll = ImageUpload.getImageCollection(self.imageCollection);
     if (file) {
       var newFile = new FS.File(file);
       newFile.addedBy = Meteor.userId();
-      if (this.associatedObject) {
-        newFile.associatedObjectId = this.associatedObject._id;
+      if (self.doc) {
+        newFile.associatedObjectId = self.doc._id;
       }
-
-      this.imageCollection.insert(newFile, function (err, fileObj) {
+      coll.insert(newFile, function (err, fileObj) {
         if (err) {
           console.log("Error: ", err);
         }
         // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
-        if (!that.associatedObjectId) {
+        if (!self.associatedObjectId) {
           // Save the ID of the newly inserted doc in the session so we can use it
           // until it's associated.
-          Session.set("lastImageId-" + that.store, fileObj._id);
+          Session.set("lastImageId-" + self.imageCollection, fileObj._id);
         }
       });
     }
-  },
+  }
 });

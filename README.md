@@ -48,7 +48,7 @@ ImageUpload.configure({
 You can omit `publicRead` and `bucketUrl` if you don't want to serve images
 directly from S3.
 
-Check out how to securely store your S3 credentials in this [section](#correctly-specify-keys) below.
+**WARNING** You should never store your keys publicly, instead use [Meteor.settings](http://docs.meteor.com/#/full/meteor_settings). Start your app using `meteor --settings settings.json`
 
 ### Creating Image Collections
 
@@ -86,14 +86,20 @@ Please add your own **allow/deny** rules and/or enable ImageUpload's `defaultPer
 defaultPermissions if enabled:
 ```javascript
 ImageCollection.allow({
-  insert: function (userId, doc) {
-    typicalAllow();
+  insert: function(userId, doc) {
+    return !!userId;
   },
-  update: function (userId, doc) {
-    typicalAllow();
+  update: function(userId, doc) {
+    /*
+     * User can update their own image only
+     */
+    return doc && doc.addedBy === userId;
   },
-  remove: function (userId, doc) {
-    typicalAllow();
+  remove: function(userId, doc) {
+    /*
+     * User can remove their own image only
+     */
+    return doc && doc.addedBy === userId;
   },
   download: function (userId, fileObj) {
     if (publicRead) {
@@ -121,21 +127,21 @@ API: `{{> uploadImage imageCollection=collectionName [option=option] }}`
 
 Examples:
 ```html
-{{> uploadImage imageCollection=userImages size="thumbnail" doc=currentUser classImage="tiny-img round"}}
+{{> uploadImage imageCollection="userImages" size="thumbnail" doc=currentUser classImage="tiny-img round"}}
 
-{{> uploadImage imageCollection=postImages name="post-image" size="banner" }}
+{{> uploadImage imageCollection="postImages" name="post-image" size="banner" }}
 ```
 
 Attributes:
 
 | Name | Optional | Description |
 | --- | :---: | --- |
-| **imageCollection** | required | Specify the Image Upload collection images go to. |
-| **doc** | optional | When adding a new image to an existing document you can pass the existing document's data and we will make the reference for you. We pull the reference `_id` from the supplied object. |
+| **imageCollection** | required | Specify the Image Upload collection images go to.  *hint: This was the first parameter when creating the Image Upload collection.* |
+| **doc** | optional | When adding a new image to an existing document you can pass the existing document and we will make the reference for you. We pull the reference `_id` from the supplied object. |
 | **size** | optional | Specify the image size you want displayed when upload completes. By default this partial template displays the original uploaded image once complete. *hint: You made these sizes when creating your Image Upload collection.* |
 | **name** | optional | Specify a custom input element name. This overwrites the default input name attribute, `image` |
-| **classInput** | optional | Specify custom class(es) for the input element. Included class is `image-file-picker` |
-| **classImage** | optional | Specify custom class(es) for the image when it displays after upload completes. Included class is`uploaded-image` |
+| **classInput** | optional | Specify custom CSS class(es) for the input element. Included class is `image-file-picker` |
+| **classImage** | optional | Specify custom CSS class(es) for the image when it displays after upload completes. Included class is`uploaded-image` |
 
 
 ### Display Image
@@ -143,7 +149,7 @@ Attributes:
 To display a stored image, you can
 
 ```html
-<template name="yourTempalte">
+<template name="yourTemplate">
   <img src="{{image}}"/>
 </template>
 ```
@@ -182,58 +188,5 @@ the browser's client to AWS's S3. We may add this in the future, but there we
 will probably wait until CollectionFS supports this (they have it in the
 works). Pull requests welcome.
 
-=========
-
-## Correctly Specify Keys
-
-### Using Environment Variables (recommended)
-
-Use `dotenv` package:
-
-`meteor add pauldowman:dotenv`
-
-Add a file named `.env` in your project directory:
-
-```shell
-AWS_ACCESS_KEY_ID=your_aws_access_key_id
-AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
-S3_BUCKET_NAME=your_s3_bucket_name
-```
-
-On the **server**:
-
-```javascript
-var accessKeyId = process.env.AWS_ACCESS_KEY_ID
-var secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
-var bucketName = process.env.S3_BUCKET_NAME;
-```
-
-### Using Meteor `settings.json`
-
-```javascript
-var accessKeyId = Meteor.settings.aws.accessKeyId;
-var secretAccessKey = Meteor.settings.aws.secretAccessKey;
-var bucketName = Meteor.settings.aws.bucketName;
-var bucketUrl = Meteor.settings.aws.bucketUrl;
-```
-
-Create a file named `settings.json` in your project directory. It should look
-something like this:
-
-```json
-{
-  "aws": {
-    "accessKeyId": "ABCDEFGHIJKLMNO",
-    "secretAccessKey": "lvO2kvs6HtI09Vd**fake**S9apstQtlaVBu7e",
-    "bucketName": "your-bucket",
-    "bucketUrl": "https://s3.amazonaws.com/your-bucket"
-  }
-}
-```
-
-If you use `settings.json`, you will need to start your app using `meteor --settings settings.json`
-
 
 Enjoy!
-
-![OK Grow Logo](http://www.okgrow.com/images/mark-text-dark.png)

@@ -2,7 +2,7 @@ Template.uploadImage.helpers({
   image: function() {
     var self = this;
     var coll = ImageUpload.getImageCollection(self.imageCollection);
-    var store = self.imageCollection+"-"+self.size;
+    var store = self.imageCollection;
     var image;
 
     if (self.doc) {
@@ -11,7 +11,7 @@ Template.uploadImage.helpers({
     } else {
       // No associated object yet, check id of last image of this type in session
       imageId = Session.get("lastImageId-" + store);
-      image = coll.findOne({_id: Session.get("lastImageId-" + store)});
+      image = coll.findOne({_id: imageId});
     }
     return image;
   },

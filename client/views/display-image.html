@@ -1,6 +1,6 @@
 <template name="displayImage">
   {{#if thumbnail}}
-  <img class="uploaded-image {{../classImage}}" src="{{thumbnail}}"/>
+    <img class="uploaded-image {{../classImage}}" src="{{thumbnail}}"/>
   {{else}}
     {{#unless isUploaded}}
       Uploading ({{uploadProgress}})...

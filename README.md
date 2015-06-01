@@ -159,7 +159,7 @@ Which uses a helper which loads a document from the image collection:
 ```javascript
 Template.yourTemplate.helpers({
   image: function() {
-  	var doc = Template.parentData(1);
+    var doc = Template.parentData(1);
     var image = yourImageCollection.findOne({associatedObjectId: doc._id});
     if (image) {
       return image.url({store: "userImages-thumbnail"});

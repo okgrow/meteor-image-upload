@@ -14,13 +14,13 @@ DISCLAIMER - ***This is not production ready yet***, expect API changes. Image U
 
 2. [GraphicsMagick](http://www.graphicsmagick.org/) or [ImageMagick](http://www.imagemagick.org/) on your local machine *and* deployment server for image manipulation.
 
-	-	**OS X:** `brew install imagemagick` or `brew install graphicsmagick`
+  -	**OS X:** `brew install imagemagick` or `brew install graphicsmagick`
 
-	-	**\*.Meteor.com:** supports ImageMagick no setup needed
+  -	**\*.Meteor.com:** supports ImageMagick no setup needed
 
-	-	**Modulus.io:** supports ImageMagick no setup needed
+  -	**Modulus.io:** supports ImageMagick no setup needed
 
-	-	**Heroku, DigitalOcean, AWS EC2:** requires manual ImageMagick/GraphicsMagick installation.
+  -	**Heroku, DigitalOcean, AWS EC2:** requires manual ImageMagick/GraphicsMagick installation.
 
 There are a lot of steps to set this up. We're working on cutting this down
 considerably. Any help is welcome.
@@ -61,19 +61,27 @@ API: `ImageUpload.createCollection( name, reference, { [options] } )`
 
 Options: 
 
-| Name | Optional | Description |
-| --- | :---: | --- |
+| Name                   | Optional | Description |
+| ---                    | :---:    | ---         |
 | **defaultPermissions** | optional | Enables default Allow rules on your image collection, see [Security Rules](#allowdeny-security-rules) to see the rules |
-| **sizes** | optional | Let ImageMagick create multiple different sizes of each image automatically. Specify a size name as the key followed by an array for X,Y px lengths |
+| **sizes**              | optional | Let ImageMagick create multiple different sizes of each image automatically. Specify a size name as the key followed by an array for X,Y px lengths |
+| **maxUploadSize**      | optional | The maximum allowed file size in MB. Default is 20. |
 
-Example
+The following creates an image collection called `userImages` which will be associated with the `Meteor.users` collection with images stored in four sizes:
+
+1. The original image
+2. "thumbnail": 200x200 px
+3. "normal": 800x800 px
+4. "large:": 1200x1200 px
+
 ```javascript
 UserImages = ImageUpload.createCollection("userImages", Meteor.users, {
   defaultPermissions: true,
+  maxUploadSize: 30,
   sizes: {
+  thumbnail: [200, 200],
     normal: [800,800],
-    thumbnail: [200, 200],
-    avatar: [50, 50]
+    large: [1200, 1200]
   }
 });
 ```
@@ -87,21 +95,20 @@ defaultPermissions if enabled:
 ```javascript
 ImageCollection.allow({
   insert: function(userId, doc) {
+    // Any authenticated user can create images
     return !!userId;
   },
   update: function(userId, doc) {
-    /*
-     * User can update their own image only
-     */
+     // User can update their own image only
     return doc && doc.addedBy === userId;
   },
   remove: function(userId, doc) {
-    /*
-     * User can remove their own image only
-     */
+     // User can remove their own image only
     return doc && doc.addedBy === userId;
   },
   download: function (userId, fileObj) {
+    // If publicRead has been set anyone can download, otherwise users
+    // can only download images that they uploaded
     if (publicRead) {
       return true;
     } else {

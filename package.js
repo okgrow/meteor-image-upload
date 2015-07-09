@@ -7,11 +7,11 @@ Package.describe({
 
 Package.onUse(function (api) {
   api.use([
-    'cfs:standard-packages@0.5.0',
-    'cfs:filesystem@0.1.1',
-    'cfs:graphicsmagick@0.0.17',
-    'cfs:s3@0.1.1',
-    'cfs:tempstore@0.1.3',
+    'cfs:standard-packages@0.5.9',
+    'cfs:filesystem@0.1.2',
+    'cfs:graphicsmagick@0.0.18',
+    'cfs:s3@0.1.3',
+    'cfs:tempstore@0.1.5',
     'cfs:power-queue@0.9.11',
     'session@1.0.5',
     'spacebars@1.0.0',

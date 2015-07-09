@@ -1,10 +1,14 @@
 # Image Upload for Meteor
 
-DISCLAIMER - ***This is not production ready yet***, expect API changes. Image Upload is under active development. If you'd like to help out, drop us a message at hello@okgrow.com or send a PR.
+Image Upload makes it super easy for you to setup a photo input field along with all the trimmings (S3, collections, permissions, templates, etc.). Under the hood you will find ImageUpload is just a sugary wrapper around [collectionFS](https://atmospherejs.com/cfs).
 
-### Demo
+To get familiar with ImageUpload take a look at the rest of this read me as well as our example:
+ 
+[Demo app live on Heroku](https://ok-image-upload-demo.herokuapp.com/)
+ 
+[github.com/okgrow/meteor-image-upload-demo](https://github.com/okgrow/meteor-image-upload-demo)
 
-[Demo app on Heroku](https://ok-image-upload-demo.herokuapp.com/) ([source](https://github.com/okgrow/meteor-image-upload-demo))
+DISCLAIMER - ***This package is under active development***. We currently use this in our production apps but be aware there may be future API changes. If you'd like to help out, drop us a message at hello@okgrow.com or send a PR.
 
 ## One-time Setup
 
@@ -16,14 +20,11 @@ DISCLAIMER - ***This is not production ready yet***, expect API changes. Image U
 
   -	**OS X:** `brew install imagemagick` or `brew install graphicsmagick`
 
-  -	**\*.Meteor.com:** supports ImageMagick no setup needed
-
   -	**Modulus.io:** supports ImageMagick no setup needed
 
   -	**Heroku, DigitalOcean, AWS EC2:** requires manual ImageMagick/GraphicsMagick installation.
-
-There are a lot of steps to set this up. We're working on cutting this down
-considerably. Any help is welcome.
+  
+  - **Meteor.com free hosting** does *not* support ImageMagick/GraphicsMagick, sorry no way around it :(
 
 
 ### Install & Configure
@@ -175,8 +176,6 @@ Template.yourTemplate.helpers({
 });
 ```
 
-
-
 ## Roadmap / TODO
 
 In order of fuzzy priority:
@@ -186,7 +185,6 @@ In order of fuzzy priority:
 - Default upload progress bar
 - In-browser image cropping/resizing with darkroom.js
 - Upload files from a URL
-- Reference multiple images to a document
 
 ### Direct Uploads to S3?
 

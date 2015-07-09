@@ -4,9 +4,9 @@ Image Upload makes it super easy for you to setup a photo input field along with
 
 To get familiar with ImageUpload take a look at the rest of this read me as well as our example:
  
-[Demo app live on Heroku](https://ok-image-upload-demo.herokuapp.com/)
+[Example app live](https://ok-image-upload-demo.herokuapp.com/)
  
-[github.com/okgrow/meteor-image-upload-demo](https://github.com/okgrow/meteor-image-upload-demo)
+[Example app source](https://github.com/okgrow/meteor-image-upload/blob/master/examples/app)
 
 DISCLAIMER - ***This package is under active development***. We currently use this in our production apps but be aware there may be future API changes. If you'd like to help out, drop us a message at hello@okgrow.com or send a PR.
 

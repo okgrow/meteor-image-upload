@@ -1,0 +1,8 @@
+{
+  "accessKeyId": "ABCDEFGHIJKLMNOP",
+  "secretAccessKey": "vlkdfoijfoncos**fake**kdnflkndklnlnvlknfdv",
+  "bucketName": "your-bucket",
+  "public": {
+    "bucketUrl": "https://s3.amazonaws.com/your-bucket"
+  }
+}

@@ -1,0 +1,112 @@
+<head>
+  <title>Image Upload Demo</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 pull-right">
+        {{> loginButtons}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        {{> users}}
+        <hr/>
+        <p class="bg-warning">Note that all data (users, posts, images) are purged periodically. If everything disappears while you're viewing this, that's what has happened.</p>
+        <p>You can view this app's <a href="https://github.com/okgrow/meteor-image-upload-demo">source code</a>.</p>
+        <hr/>
+        {{#if currentUser}}
+          {{> profile}}
+          <hr/>
+          {{> Template.dynamic template=formTemplate data=formData}}
+          <hr/>
+        {{else}}
+          Sign in to send a chat message
+        {{/if}}
+        {{> posts}}
+      </div>
+    </div>
+  </div>
+</body>
+
+<template name="profile">
+  <p>
+    Choose a profile avatar:
+    {{> uploadImage imageCollection="userImages" doc=currentUser classImage="image-round"}}
+  </p>
+</template>
+
+<template name="users">
+  <p>
+    All users on this site:
+    <ol>
+      {{#each users}}
+        {{> user}}
+      {{/each}}
+    </ol>
+  </p>
+</template>
+
+<template name="user">
+  <li>
+    {{id}}
+    {{#if avatar}}
+      <img class="uploaded-image" src="{{imageUrl}}"/>
+    {{/if}}
+  </li>
+</template>
+
+<template name="makeAPost">
+  <h3>Make a new post</h3>
+  <form data-action="submit-post">
+    <p>
+      <input type="text" name="text" placeholder="say hello!"/>
+    </p>
+    <p>
+      and/or upload an image:
+      {{> uploadImage imageCollection="postImages" name="post-image" size="thumbnail"}}
+    </p>
+    <input type="submit"/>
+  </form>
+</template>
+
+<template name="editAPost">
+  <h3>Edit a post</h3>
+  <form data-action="edit-post">
+    <p>
+      <input type="text" name="text" value="{{text}}"/>
+    </p>
+    <p>
+      and/or upload an image:
+      {{> uploadImage imageCollection="postImages" name="post-image" size="thumbnail" doc=this}}
+    </p>
+    <input type="submit"/>
+  </form>
+  <button data-action="cancel-edit-post">Cancel</button>
+</template>
+
+<template name="posts">
+  <p>
+    Messages:
+    <dl class="dl-horizontal">
+      {{#each posts}}
+        {{> post}}
+      {{/each}}
+    </dl>
+  </p>
+</template>
+
+<template name="post">
+  <dt>
+    {{user}}
+  </dt>
+  <dd>
+    {{#if image}}
+      <img class="uploaded-image" src="{{image}}"/> <br/> {{text}}
+    {{else}}
+      {{text}}
+    {{/if}}
+    <button data-action="post-edit">edit</button>
+  </dd>
+</template>

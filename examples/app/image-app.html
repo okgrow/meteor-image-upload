@@ -33,7 +33,7 @@
 <template name="profile">
   <p>
     Choose a profile avatar:
-    {{> uploadImage imageCollection="userImages" doc=currentUser classImage="image-round"}}
+    {{> uploadImage imageCollection="userImages" doc=currentUser classImage="image-round" classInput="image-picker" inputName="user-image"}}
   </p>
 </template>
 
@@ -65,7 +65,7 @@
     </p>
     <p>
       and/or upload an image:
-      {{> uploadImage imageCollection="postImages" name="post-image" size="thumbnail"}}
+      {{> uploadImage imageCollection="postImages" name="post-image" size="thumbnail" classInput="image-picker" inputName="post-image}}
     </p>
     <input type="submit"/>
   </form>
@@ -79,7 +79,7 @@
     </p>
     <p>
       and/or upload an image:
-      {{> uploadImage imageCollection="postImages" name="post-image" size="thumbnail" doc=this}}
+      {{> uploadImage imageCollection="postImages" name="post-image" size="thumbnail" classInput="image-picker" inputName="post-image}}
     </p>
     <input type="submit"/>
   </form>

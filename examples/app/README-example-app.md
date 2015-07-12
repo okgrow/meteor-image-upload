@@ -20,10 +20,5 @@ Deploying this app
 
 Use Heroku. You can't use Meteor.com's deployment environment because it does
 not support GraphicsMagick. (We have a [branch](https://github.com/okgrow/meteor-image-upload/tree/heroku-deploy)
-that contains the example app at the root which makes this easier, we only merge
+that contains the example app at the root for deploying to Heroku, we only merge
 one way from master to that branch.)
-
-TODO
-====
-
-* Spinner when an image on a post is still processing

@@ -4,7 +4,7 @@ Image Upload makes it super easy for you to setup a photo input field along with
 
 To get familiar with ImageUpload take a look at the rest of this read me as well as our example:
  
-[Example app live](https://ok-image-upload-demo.herokuapp.com/)
+[Example app live](http://ok-image-upload-demo.herokuapp.com/)
  
 [Example app source](https://github.com/okgrow/meteor-image-upload/blob/master/examples/app)
 

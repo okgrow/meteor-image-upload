@@ -42,7 +42,7 @@ minimongo@1.0.8
 mongo@1.1.0
 mongo-livedata@1.0.8
 observe-sequence@1.0.6
-okgrow:image-upload@0.7.2
+okgrow:image-upload@0.7.4
 ordered-dict@1.0.3
 raix:eventemitter@0.1.2
 random@1.0.3

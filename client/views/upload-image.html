@@ -2,6 +2,6 @@
   {{#if image}}
     {{> displayImage image}}
   {{else}}
-    <input name="{{inputName}}" type="file" value="{{image}}" class="image-file-picker {{classInput}}" data-action="image-file-picker">
+    <input name="{{inputName}}" type="file" accept="image/*" value="{{image}}" class="image-file-picker {{classInput}}" data-action="image-file-picker">
   {{/if}}
 </template>

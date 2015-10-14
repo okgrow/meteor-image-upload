@@ -8,7 +8,7 @@ Package.describe({
 Package.onUse(function (api) {
   api.use([
     'cfs:standard-packages@0.5.9',
-    'cfs:filesystem@0.1.2',
+    'cfs:gridfs@0.0.33',
     'cfs:graphicsmagick@0.0.18',
     'cfs:s3@0.1.3',
     'cfs:tempstore@0.1.5',

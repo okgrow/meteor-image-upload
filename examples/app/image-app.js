@@ -21,12 +21,12 @@ ImageUpload.configure({
   accessKeyId: accessKeyId,
   secretAccessKey: secretAccessKey,
   bucketName: bucketName,
-  publicRead: true,
   bucketUrl: bucketUrl
 });
 
 UserImages = ImageUpload.createCollection("userImages", Meteor.users, {
   defaultPermissions: true,
+  publicRead: true,
   sizes: {
     normal: [800,800],
     thumbnail: [200, 200],

@@ -42,14 +42,12 @@ ImageUpload.configure({
   secretAccessKey: YOUR_SECRET_ACCESS_KEY,
   bucketName: YOUR_BUCKET_NAME,
   bucketUrl: YOUR_BUCKET_URL, //"https://your_bucket_name.s3.amazonaws.com/"
-  publicRead: true
 });
 ```
 
-You can omit `publicRead` and `bucketUrl` if you don't want to serve images
-directly from S3.
+**WARNING** You should never store your keys publicly, instead use [Meteor.settings](http://docs.meteor.com/#/full/meteor_settings). Start your app using `meteor --settings settings.json`. Refer to our example app settings file to see how we do it.
 
-**WARNING** You should never store your keys publicly, instead use [Meteor.settings](http://docs.meteor.com/#/full/meteor_settings). Start your app using `meteor --settings settings.json`
+**Note** Since 0.8.0 `publicRead` is now set in the image collection options. ImageUpload will throw an error if you try and pass `publicRead` in `ImageUpload.configure()`
 
 ### Creating Image Collections
 
@@ -65,6 +63,7 @@ Options:
 | Name                   | Optional | Description |
 | ---                    | :---:    | ---         |
 | **defaultPermissions** | optional | Enables default Allow rules on your image collection, see [Security Rules](#allowdeny-security-rules) to see the rules |
+| **publicRead**         | optional | set to `true` to server files directly from S3, `bucketUrl` in `.configure()` is also required. Also allows visitors to view images if `defaultPermissions` is also true. |
 | **sizes**              | optional | Let ImageMagick create multiple different sizes of each image automatically. Specify a size name as the key followed by an array for X,Y px lengths |
 | **maxUploadSize**      | optional | The maximum allowed file size in MB. Default is 20. |
 

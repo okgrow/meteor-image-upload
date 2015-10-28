@@ -107,6 +107,8 @@
     {{else}}
       {{text}}
     {{/if}}
-    <button data-action="post-edit">edit</button>
+    {{#if currentUser}}
+      <button data-action="post-edit">edit</button>
+    {{/if}}
   </dd>
 </template>

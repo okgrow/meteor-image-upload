@@ -185,6 +185,10 @@ In order of fuzzy priority:
 - In-browser image cropping/resizing with darkroom.js
 - Upload files from a URL
 
+### Contributing
+
+Issues and Pull Requests are always welcome. Please read our [contribution guidelines](https://github.com/okgrow/guides/blob/master/contributing.md).
+
 ### Direct Uploads to S3?
 
 At this point we don't have plans to support uploading files directly from

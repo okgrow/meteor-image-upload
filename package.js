@@ -16,7 +16,8 @@ Package.onUse(function (api) {
     'session@1.0.5',
     'spacebars@1.0.0',
     'templating@1.0.0',
-    'underscore'
+    'underscore',
+    'tracker'
   ]);
   api.addFiles('lib/image_upload.js', ['server', 'client']);
   api.addFiles(

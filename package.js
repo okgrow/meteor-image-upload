@@ -15,7 +15,8 @@ Package.onUse(function (api) {
     'cfs:power-queue@0.9.11',
     'session@1.0.5',
     'spacebars@1.0.0',
-    'templating@1.0.0'
+    'templating@1.0.0',
+    'underscore'
   ]);
   api.addFiles('lib/image_upload.js', ['server', 'client']);
   api.addFiles(

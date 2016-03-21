@@ -14,8 +14,8 @@ cfs:collection@0.5.5
 cfs:collection-filters@0.2.4
 cfs:data-man@0.0.6
 cfs:file@0.1.17
-cfs:filesystem@0.1.2
 cfs:graphicsmagick@0.0.18
+cfs:gridfs@0.0.33
 cfs:http-methods@0.0.29
 cfs:http-publish@0.0.13
 cfs:power-queue@0.9.11
@@ -53,7 +53,7 @@ mongo-id@1.0.1
 mongo-livedata@1.0.9
 npm-mongo@1.4.39_1
 observe-sequence@1.0.7
-okgrow:image-upload@0.8.1
+okgrow:image-upload@0.8.2
 ordered-dict@1.0.4
 promise@0.5.1
 raix:eventemitter@0.1.2

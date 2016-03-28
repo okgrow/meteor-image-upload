@@ -41,7 +41,8 @@ ImageUpload.configure({
   accessKeyId: YOUR_ACCESS_KEY_ID,
   secretAccessKey: YOUR_SECRET_ACCESS_KEY,
   bucketName: YOUR_BUCKET_NAME,
-  bucketUrl: YOUR_BUCKET_URL, //"https://your_bucket_name.s3.amazonaws.com/"
+  bucketUrl: YOUR_BUCKET_URL, //"https://your_bucket_name.s3.amazonaws.com/",
+  maxUploadSize: 30 // MB
 });
 ```
 
@@ -65,7 +66,6 @@ Options:
 | **defaultPermissions** | optional | Enables default Allow rules on your image collection, see [Security Rules](#allowdeny-security-rules) to see the rules |
 | **publicRead**         | optional | set to `true` to server files directly from S3, `bucketUrl` in `.configure()` is also required. Also allows visitors to view images if `defaultPermissions` is also true. |
 | **sizes**              | optional | Let ImageMagick create multiple different sizes of each image automatically. Specify a size name as the key followed by an array for X,Y px lengths |
-| **maxUploadSize**      | optional | The maximum allowed file size in MB. Default is 20. |
 
 The following creates an image collection called `userImages` which will be associated with the `Meteor.users` collection with images stored in four sizes:
 
@@ -77,7 +77,6 @@ The following creates an image collection called `userImages` which will be asso
 ```javascript
 UserImages = ImageUpload.createCollection("userImages", Meteor.users, {
   defaultPermissions: true,
-  maxUploadSize: 30,
   sizes: {
   thumbnail: [200, 200],
     normal: [800,800],

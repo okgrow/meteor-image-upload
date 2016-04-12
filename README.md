@@ -8,7 +8,7 @@ To get familiar with ImageUpload take a look at the rest of this read me as well
  
 [Example app source](https://github.com/okgrow/meteor-image-upload/blob/master/examples/app)
 
-DISCLAIMER - ***Development of this package is currently on hiatus***. We are currently not active developing this package due to both resource constraints and uncertainty about how well supported it will be in the future. We are using this in our active projects, so we will continue to do bug fixes as we encounter them, but feature requests may go unanswered. PRs are still welcome.
+DISCLAIMER - ***Development of this package is currently on hiatus***. We are currently not actively developing this package due to both resource constraints and uncertainty about how well supported it will be in the future. We are using this in our active projects, so we will continue to do bug fixes as we encounter them, but feature requests may go unanswered. PRs are still welcome.
 
 ## One-time Setup
 

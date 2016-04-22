@@ -9,7 +9,6 @@ okgrow:image-upload
 pauldowman:dotenv
 accounts-meteor-developer
 twbs:bootstrap
-standard-minifiers
 meteor-base
 mobile-experience
 mongo
@@ -23,3 +22,5 @@ random
 ejson
 spacebars
 check
+standard-minifier-css
+standard-minifier-js

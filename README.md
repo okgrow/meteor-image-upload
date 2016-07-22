@@ -1,3 +1,7 @@
+# Deprecated
+
+DISCLAIMER - ***Development of this package is currently on hiatus***. We are currently not actively developing this package due to both resource constraints and uncertainty about how well supported it will be in the future. We are using this in our active projects, so we will continue to do bug fixes as we encounter them, but feature requests may go unanswered. PRs are still welcome.
+
 # Image Upload for Meteor
 
 Image Upload makes it super easy for you to setup a photo input field along with all the trimmings (S3, collections, permissions, templates, etc.). Under the hood you will find ImageUpload is just a sugary wrapper around [collectionFS](https://atmospherejs.com/cfs).
@@ -7,8 +11,6 @@ To get familiar with ImageUpload take a look at the rest of this read me as well
 [Example app live](http://ok-image-upload-demo.herokuapp.com/)
  
 [Example app source](https://github.com/okgrow/meteor-image-upload/blob/master/examples/app)
-
-DISCLAIMER - ***Development of this package is currently on hiatus***. We are currently not actively developing this package due to both resource constraints and uncertainty about how well supported it will be in the future. We are using this in our active projects, so we will continue to do bug fixes as we encounter them, but feature requests may go unanswered. PRs are still welcome.
 
 ## One-time Setup
 
